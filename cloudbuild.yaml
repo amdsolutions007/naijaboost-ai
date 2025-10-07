@@ -1,9 +1,33 @@
 steps:
-- name: 'python:3.11'
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    pip install -r requirements.txt
-    pip install -r requirements-dev.txt
-    pytest tests/
+  # Step 1: Build the Docker container image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Build Container Image'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/naijaboost-ai', '.']
+
+  # Step 2: Push container image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push to Container Registry'
+    args: ['push', 'gcr.io/$PROJECT_ID/naijaboost-ai']
+
+  # Step 3: Deploy container image to Google Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'Deploy to Cloud Run'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'naijaboost-ai'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/naijaboost-ai'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8080'
+
+images:
+  - 'gcr.io/$PROJECT_ID/naijaboost-ai'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
