@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaijaBoost AI: Build your Brand. Boost your Hustle.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #121218;
+            --bg-card: rgba(26, 26, 36, 0.75);
+            --bg-glass: rgba(255, 255, 255, 0.04);
+            --border-glass: rgba(251, 145, 41, 0.25);
+            --accent-orange: #FB9129;
+            --accent-orange-hover: #ff9e3f;
+            --accent-glow: rgba(251, 145, 41, 0.35);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0C0;
+            --text-muted: #7A7A8E;
+            --success: #10B981;
+            --danger: #EF4444;
+            --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(251, 145, 41, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(18, 18, 24, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.25rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-orange), #FF5E00);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .brand-text h1 {
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 1.35rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #FFF, #D1D1E0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text p {
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .wallet-status-bar {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 0.6rem 1.25rem;
+            border-radius: 999px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .user-selector select {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .wallet-balances {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: var(--font-main);
+        }
+
+        .balance-item {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .balance-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .balance-value {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .balance-value.ngn {
+            color: var(--accent-orange);
+        }
+
+        .btn-fund {
+            background: linear-gradient(135deg, var(--accent-orange), #FF6B00);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.1rem;
+            border-radius: 999px;
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-fund:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px var(--accent-glow);
+        }
+
+        main {
+            flex: 1;
+            max-width: 960px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .hero-banner {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hero-badge {
+            background: rgba(251, 145, 41, 0.15);
+            color: var(--accent-orange);
+            border: 1px solid var(--border-glass);
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .hero-banner h2 {
+            font-family: var(--font-main);
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .hero-banner p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .prompt-container {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .language-selection-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .language-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .language-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .lang-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-secondary);
+            padding: 0.5rem 1.1rem;
+            border-radius: 12px;
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .lang-pill.active {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: #fff;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .textarea-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            background: rgba(18, 18, 24, 0.6);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .textarea-wrapper:focus-within {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 20px rgba(251, 145, 41, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 130px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            padding: 1.25rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .textarea-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0 0 16px 16px;
+        }
+
+        .voice-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-mic {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-mic:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-mic.recording {
+            background: #EF4444;
+            border-color: #FF6B6B;
+            animation: pulse-mic 1.5s infinite;
+        }
+
+        @keyframes pulse-mic {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .voice-status {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent-orange), #FF5E00);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.8rem;
+            border-radius: 14px;
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Results Display Section */
+        .results-section {
+            display: none;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .result-title {
+            font-family: var(--font-main);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .plan-stat {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-family: var(--font-main);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .stat-value.highlight {
+            color: var(--accent-orange);
+        }
+
+        .financial-summary {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .fin-text h4 {
+            color: var(--success);
+            font-family: var(--font-main);
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .fin-text p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-card {
+            background: #1A1A24;
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 480px;
+            padding: 2.25rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            animation: modalScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes modalScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        .modal-title {
+            font-family: var(--font-main);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .modal-body p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-orange);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            font-family: var(--font-main);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .alert-deficit {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-radius: 14px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            color: #FCA5A5;
+            font-size: 0.9rem;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .wallet-status-bar {
+                justify-content: space-between;
+            }
+            .hero-banner h2 {
+                font-size: 1.8rem;
+            }
+            .textarea-actions {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            .btn-submit {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Real-Time Wallet Status Bar -->
+    <header>
+        <div class="brand-section">
+            <div class="brand-logo">NB</div>
+            <div class="brand-text">
+                <h1>NaijaBoost AI</h1>
+                <p>Build your Brand. Boost your Hustle.</p>
+            </div>
+        </div>
+
+        <div class="wallet-status-bar">
+            <div class="user-selector">
+                <span>User:</span>
+                <select id="userSelect" onchange="refreshWalletBalance()">
+                    <option value="ceo_solutions007">CEO Solutions 007</option>
+                    <option value="naija_hustler_01">Naija Hustler 01</option>
+                    <option value="brand_agency_ng">Brand Agency NG</option>
+                </select>
+            </div>
+            <div class="wallet-balances">
+                <div class="balance-item">
+                    <span class="balance-label">NGN Balance</span>
+                    <span class="balance-value ngn" id="balanceNgn">₦0.00</span>
+                </div>
+                <div class="balance-item">
+                    <span class="balance-label">USD Equivalent</span>
+                    <span class="balance-value" id="balanceUsd">$0.0000</span>
+                </div>
+            </div>
+            <button class="btn-fund" onclick="openFundModal()">
+                <span>⚡ Fund Wallet</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+        <section class="hero-banner">
+            <div class="hero-badge">Dual-Brain Conversational Engine</div>
+            <h2>Speak or Type Your SMM Goals</h2>
+            <p>Our localized AI layer analyzes multilingual prompts, optimizes your order parameters, and routes via high-speed Category A wholesalers.</p>
+        </section>
+
+        <!-- Conversational Prompt Box -->
+        <section class="prompt-container">
+            <div class="language-selection-bar">
+                <span class="language-label">🌐 Select Prompt Language:</span>
+                <div class="language-pills" id="languagePills">
+                    <button type="button" class="lang-pill active" onclick="selectLanguage('English', this)">English</button>
+                    <button type="button" class="lang-pill" onclick="selectLanguage('Pidgin', this)">Pidgin</button>
+                    <button type="button" class="lang-pill" onclick="selectLanguage('Yoruba', this)">Yoruba</button>
+                    <button type="button" class="lang-pill" onclick="selectLanguage('Hausa', this)">Hausa</button>
+                    <button type="button" class="lang-pill" onclick="selectLanguage('Igbo', this)">Igbo</button>
+                </div>
+            </div>
+
+            <div class="textarea-wrapper">
+                <textarea id="promptInput" placeholder="e.g. 'I want 5000 music streams for my new Afrobeat track https://audiomack.com/track/xyz with safe drip-feed delivery...'"></textarea>
+                <div class="textarea-actions">
+                    <div class="voice-section">
+                        <button type="button" class="btn-mic" id="micBtn" onclick="toggleVoiceRecording()" title="Dictate Voice Prompt">
+                            🎤
+                        </button>
+                        <span class="voice-status" id="voiceStatus">Click mic to speak</span>
+                    </div>
+                    <button type="button" class="btn-submit" id="submitBtn" onclick="submitCampaignPrompt()">
+                        <span>Generate Campaign Plan</span>
+                        <div class="spinner" id="submitSpinner"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Display Section -->
+        <section class="results-section" id="resultsSection">
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">🚀 Auto-Configured Campaign Plan</div>
+                    <span class="hero-badge" id="planLangBadge">Language: English</span>
+                </div>
+
+                <div class="plan-grid">
+                    <div class="plan-stat">
+                        <span class="stat-label">Service Type</span>
+                        <span class="stat-value highlight" id="resServiceType">-</span>
+                    </div>
+                    <div class="plan-stat">
+                        <span class="stat-label">Quantity</span>
+                        <span class="stat-value" id="resQuantity">-</span>
+                    </div>
+                    <div class="plan-stat">
+                        <span class="stat-label">Delivery Rate (Safe)</span>
+                        <span class="stat-value" id="resDeliveryRate">- units/hr</span>
+                    </div>
+                    <div class="plan-stat">
+                        <span class="stat-label">Recommended Provider</span>
+                        <span class="stat-value highlight" id="resProvider">-</span>
+                    </div>
+                </div>
+
+                <div class="plan-stat" style="margin-bottom: 1.5rem;">
+                    <span class="stat-label">Target URL</span>
+                    <span class="stat-value" id="resTargetUrl" style="font-size: 0.95rem; word-break: break-all;">-</span>
+                </div>
+
+                <div class="financial-summary">
+                    <div class="fin-text">
+                        <h4>✅ Verified Sufficient Funds</h4>
+                        <p id="resCostBreakdown">Cost: $0.00 USD (₦0.00 NGN) at FX Rate 1,500 NGN/USD</p>
+                    </div>
+                    <button type="button" class="btn-fund" onclick="alert('Order Dispatched to Category A Wholesaler!')">
+                        Dispatch Order Now →
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Fund Wallet Modal -->
+    <div class="modal-overlay" id="fundModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeFundModal()">&times;</button>
+            <div class="modal-title">⚡ Fund Your Wallet</div>
+            <div class="modal-body">
+                <p>Simulate local deposit via Paystack or Flutterwave gateway to top up NGN balance instantly.</p>
+                <div class="form-group">
+                    <label for="fundAmount">Deposit Amount (NGN)</label>
+                    <input type="number" class="form-control" id="fundAmount" value="50000" min="500" step="500">
+                </div>
+                <div class="form-group">
+                    <label for="fundGateway">Payment Gateway</label>
+                    <select class="form-control" id="fundGateway">
+                        <option value="paystack">Paystack Instant Webhook</option>
+                        <option value="flutterwave">Flutterwave Gateway</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fundRef">Transaction Reference</label>
+                    <input type="text" class="form-control" id="fundRef" value="">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeFundModal()">Cancel</button>
+                <button type="button" class="btn-submit" onclick="submitWalletCredit()">Deposit Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 402 Payment Required Modal -->
+    <div class="modal-overlay" id="paymentRequiredModal">
+        <div class="modal-card" style="border-color: var(--danger);">
+            <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+            <div class="modal-title" style="color: var(--danger);">⚠️ 402 Payment Required</div>
+            <div class="modal-body">
+                <p>Your current wallet balance is insufficient to execute this campaign. Please top up your account to proceed.</p>
+                
+                <div class="alert-deficit" id="paymentDeficitAlert">
+                    Required: ₦15,000.00 | Current: ₦0.00 | Deficit: ₦15,000.00
+                </div>
+
+                <div class="plan-stat" style="margin-bottom: 1rem;">
+                    <span class="stat-label">Pending Campaign Parameter</span>
+                    <span class="stat-value" id="paymentPendingSummary" style="font-size: 1rem;">1,000 units of youtube_watch_time</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closePaymentModal()">Close</button>
+                <button type="button" class="btn-submit" onclick="transitionToFundModal()">⚡ Top Up Wallet Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLanguage = 'English';
+        let speechRecognition = null;
+        let isRecording = false;
+        let lastDeficitAmount = 50000;
+
+        // Initialize Real-Time Wallet Status on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshWalletBalance();
+            initSpeechRecognition();
+        });
+
+        function getActiveUser() {
+            return document.getElementById('userSelect').value;
+        }
+
+        async function refreshWalletBalance() {
+            const userId = getActiveUser();
+            try {
+                const response = await fetch(`/api/v1/wallet/balance/${encodeURIComponent(userId)}`);
+                if (response.ok) {
+                    const res = await response.json();
+                    const data = res.data || {};
+                    const ngn = parseFloat(data.balance_ngn || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    const usd = parseFloat(data.balance_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+                    document.getElementById('balanceNgn').innerText = `₦${ngn}`;
+                    document.getElementById('balanceUsd').innerText = `$${usd}`;
+                }
+            } catch (err) {
+                console.error("Failed to fetch real-time wallet balance:", err);
+            }
+        }
+
+        function selectLanguage(lang, element) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-pill').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            if (speechRecognition) {
+                const langMap = {
+                    'English': 'en-NG',
+                    'Pidgin': 'en-NG',
+                    'Yoruba': 'yo-NG',
+                    'Hausa': 'ha-NG',
+                    'Igbo': 'ig-NG'
+                };
+                speechRecognition.lang = langMap[lang] || 'en-NG';
+            }
+        }
+
+        // Web Speech API Voice-to-Text Dictation
+        function initSpeechRecognition() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) {
+                document.getElementById('voiceStatus').innerText = "Speech API not supported in browser";
+                document.getElementById('micBtn').style.opacity = '0.5';
+                return;
+            }
+            speechRecognition = new SpeechRec();
+            speechRecognition.continuous = false;
+            speechRecognition.interimResults = true;
+            speechRecognition.lang = 'en-NG';
+
+            speechRecognition.onstart = () => {
+                isRecording = true;
+                document.getElementById('micBtn').classList.add('recording');
+                document.getElementById('voiceStatus').innerText = `Listening (${currentLanguage})... Speak now`;
+            };
+
+            speechRecognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                const promptBox = document.getElementById('promptInput');
+                promptBox.value = transcript;
+            };
+
+            speechRecognition.onerror = (event) => {
+                console.warn('Speech recognition error:', event.error);
+                stopVoiceRecording();
+                document.getElementById('voiceStatus').innerText = `Error: ${event.error}`;
+            };
+
+            speechRecognition.onend = () => {
+                stopVoiceRecording();
+            };
+        }
+
+        function toggleVoiceRecording() {
+            if (!speechRecognition) {
+                alert("Speech recognition is not supported on this browser device.");
+                return;
+            }
+            if (isRecording) {
+                speechRecognition.stop();
+            } else {
+                try {
+                    speechRecognition.start();
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+
+        function stopVoiceRecording() {
+            isRecording = false;
+            document.getElementById('micBtn').classList.remove('recording');
+            document.getElementById('voiceStatus').innerText = "Click mic to speak";
+        }
+
+        // Submit User Prompt to POST /api/v1/campaign/prompt
+        async function submitCampaignPrompt() {
+            const promptText = document.getElementById('promptInput').value.trim();
+            if (!promptText) {
+                alert("Please enter or dictate a campaign prompt first.");
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const spinner = document.getElementById('submitSpinner');
+            submitBtn.disabled = true;
+            spinner.style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+
+            try {
+                const response = await fetch('/api/v1/campaign/prompt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: getActiveUser(),
+                        prompt: promptText,
+                        language: currentLanguage
+                    })
+                });
+
+                if (response.status === 402) {
+                    // Handle 402 Payment Required Modal
+                    const errData = await response.json();
+                    showPaymentRequiredModal(errData);
+                    return;
+                }
+
+                if (!response.ok) {
+                    const errRes = await response.json().catch(() => ({ detail: "Request failed" }));
+                    alert(`Error (${response.status}): ${errRes.detail || errRes.message}`);
+                    return;
+                }
+
+                const res = await response.json();
+                renderCampaignPlan(res.data);
+
+            } catch (err) {
+                console.error("Network or submission error:", err);
+                alert("Failed to communicate with NaijaBoost AI server.");
+            } finally {
+                submitBtn.disabled = false;
+                spinner.style.display = 'none';
+            }
+        }
+
+        function renderCampaignPlan(data) {
+            const plan = data.campaign_plan || {};
+            const route = data.provider_route || {};
+            const fin = data.financial_verification || {};
+
+            document.getElementById('planLangBadge').innerText = `Language: ${data.language}`;
+            document.getElementById('resServiceType').innerText = plan.service_type || 'General SMM';
+            document.getElementById('resQuantity').innerText = `${(plan.quantity || 0).toLocaleString()} units`;
+            document.getElementById('resDeliveryRate').innerText = `${plan.delivery_rate || 250} units/hr (Drip-Feed: ${plan.drip_feed ? 'Active' : 'Off'})`;
+            document.getElementById('resProvider').innerText = `${route.provider_id || plan.recommended_provider || 'Wholesaler A'} (${route.tier || 'Tier 1'})`;
+            document.getElementById('resTargetUrl').innerText = plan.target_url || 'https://naijaboost.ai/campaign/target';
+
+            const costUsd = (fin.cost_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const costNgn = (fin.cost_ngn || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const fx = (fin.exchange_rate || 1500).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('resCostBreakdown').innerText = `Cost: $${costUsd} USD (₦${costNgn} NGN) at FX Rate ${fx} NGN/USD`;
+
+            document.getElementById('resultsSection').style.display = 'flex';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            refreshWalletBalance();
+        }
+
+        function showPaymentRequiredModal(errData) {
+            const data = errData.data || {};
+            const reqNgn = parseFloat(data.required_ngn || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const curNgn = parseFloat(data.current_balance_ngn || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const defNgn = parseFloat(data.deficit_ngn || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            lastDeficitAmount = Math.ceil(parseFloat(data.deficit_ngn || 50000));
+
+            document.getElementById('paymentDeficitAlert').innerText = `Required: ₦${reqNgn} | Current Balance: ₦${curNgn} | Deficit: ₦${defNgn}`;
+            
+            const plan = data.campaign_plan || {};
+            document.getElementById('paymentPendingSummary').innerText = `${(plan.quantity || 0).toLocaleString()} units of ${plan.service_type || 'SMM boost'}`;
+            
+            document.getElementById('paymentRequiredModal').style.display = 'flex';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentRequiredModal').style.display = 'none';
+        }
+
+        function transitionToFundModal() {
+            closePaymentModal();
+            openFundModal(lastDeficitAmount);
+        }
+
+        function openFundModal(prefillAmount) {
+            const randRef = `PAY_LOCAL_${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+            document.getElementById('fundRef').value = randRef;
+            if (prefillAmount && !isNaN(prefillAmount)) {
+                document.getElementById('fundAmount').value = prefillAmount;
+            }
+            document.getElementById('fundModal').style.display = 'flex';
+        }
+
+        function closeFundModal() {
+            document.getElementById('fundModal').style.display = 'none';
+        }
+
+        async function submitWalletCredit() {
+            const amount = parseFloat(document.getElementById('fundAmount').value);
+            const gateway = document.getElementById('fundGateway').value;
+            const ref = document.getElementById('fundRef').value.trim();
+            const userId = getActiveUser();
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid positive NGN amount.");
+                return;
+            }
+            if (!ref) {
+                alert("Transaction reference is required.");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/wallet/credit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        amount_ngn: amount,
+                        gateway_ref: ref,
+                        gateway: gateway
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({ detail: "Credit failed" }));
+                    alert(`Error: ${err.detail || err.message}`);
+                    return;
+                }
+
+                const res = await response.json();
+                closeFundModal();
+                await refreshWalletBalance();
+                alert(`Wallet Credited Successfully! New Balance: ₦${res.data.balance_ngn.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`);
+            } catch (err) {
+                console.error("Wallet credit error:", err);
+                alert("Failed to connect to wallet gateway.");
+            }
+        }
+    </script>
+</body>
+</html>
