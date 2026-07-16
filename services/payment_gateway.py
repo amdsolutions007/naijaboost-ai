@@ -30,7 +30,7 @@ class PaystackGateway:
 
     def __init__(self, secret_key: Optional[str] = None, public_key: Optional[str] = None) -> None:
         self.secret_key = secret_key or os.environ.get("PAYSTACK_SECRET_KEY", "")
-        self.public_key = public_key or os.environ.get("PAYSTACK_PUBLIC_KEY", "")
+        self.public_key = public_key or os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_live_82813a06033ca504895388aa775b885131f7ae2e")
 
     def initialize_transaction(
         self,

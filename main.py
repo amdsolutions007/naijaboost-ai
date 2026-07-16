@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -129,7 +130,20 @@ def calculate_campaign_cost_usd(service_type: str, quantity: int) -> float:
 @app.get("/")
 def read_root(request: Request) -> Any:
     """Render the single-page conversational UI template."""
-    return templates.TemplateResponse(request=request, name="index.html")
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={"paystack_public_key": os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_live_82813a06033ca504895388aa775b885131f7ae2e")},
+    )
+
+
+@app.get("/api/v1/config/paystack")
+def get_paystack_config() -> Dict[str, str]:
+    """Return public configuration for Paystack inline checkout."""
+    return {
+        "status": "success",
+        "public_key": os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_live_82813a06033ca504895388aa775b885131f7ae2e"),
+    }
 
 
 @app.get("/api/v1/status")
