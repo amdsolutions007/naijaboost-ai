@@ -262,8 +262,8 @@
         .platform-marquee {
             display: flex;
             width: max-content;
-            gap: 2.5rem;
-            animation: marquee-scroll 28s linear infinite;
+            gap: 1.25rem;
+            animation: marquee-scroll 38s linear infinite;
         }
 
         .platform-marquee:hover {
@@ -271,35 +271,39 @@
         }
 
         @keyframes marquee-scroll {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+            0% { transform: translate3d(0%, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
 
         .marquee-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.45rem;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 0.45rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.45rem 1.15rem;
             border-radius: 999px;
-            font-size: 0.85rem;
+            font-size: 0.83rem;
             font-weight: 600;
             color: #E5E7EB;
             white-space: nowrap;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
         }
 
         .marquee-item:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             border-color: var(--accent-orange);
             color: #FFFFFF;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(251, 145, 41, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(251, 145, 41, 0.35);
         }
 
         .marquee-icon {
             font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
         }
 
         /* Trust Badges Styles */
@@ -797,21 +801,33 @@
         <!-- Horizontal Platform Marquee -->
         <div class="platform-marquee-wrapper">
             <div class="platform-marquee">
-                <div class="marquee-item"><span class="marquee-icon">🎵</span> TikTok Viral Growth</div>
-                <div class="marquee-item"><span class="marquee-icon">📸</span> Instagram Reels & Followers</div>
-                <div class="marquee-item"><span class="marquee-icon">▶️</span> YouTube Watch Hours & Views</div>
-                <div class="marquee-item"><span class="marquee-icon">🎧</span> Spotify Organic Streams</div>
-                <div class="marquee-item"><span class="marquee-icon">🎶</span> Audiomack Track Plays</div>
-                <div class="marquee-item"><span class="marquee-icon">🍏</span> Apple Music Global Streams</div>
-                <div class="marquee-item"><span class="marquee-icon">⚡</span> Shazam Charts & Saves</div>
+                <div class="marquee-item" data-service="TikTok Growth"><span class="marquee-icon">🎵</span> TikTok Growth</div>
+                <div class="marquee-item" data-service="IG Followers"><span class="marquee-icon">📸</span> IG Followers</div>
+                <div class="marquee-item" data-service="YouTube Views"><span class="marquee-icon">▶️</span> YouTube Views</div>
+                <div class="marquee-item" data-service="Spotify Streams"><span class="marquee-icon">🎧</span> Spotify Streams</div>
+                <div class="marquee-item" data-service="Audiomack Plays"><span class="marquee-icon">🎶</span> Audiomack Plays</div>
+                <div class="marquee-item" data-service="Apple Music"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="vertical-align: -2px; margin-right: 3px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.35c.64-.78 1.08-1.86.96-2.94-.93.04-2.05.62-2.71 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.71-1.3z"/></svg>🍏</span> Apple Music</div>
+                <div class="marquee-item" data-service="Shazam Discovery"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="#0088FF" style="vertical-align: -2px; margin-right: 3px;"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.593 17.653c-1.322 0-2.653-.61-3.643-1.83-1.086-1.336-1.196-3.04-.325-4.327l1.393-2.06c.306-.452.262-1.052-.102-1.455-.366-.402-.962-.482-1.428-.19l-3.328 2.086c-.523.328-1.218.17-1.545-.353-.328-.522-.17-1.218.353-1.545l3.328-2.086c1.666-1.044 3.792-.756 5.1 .683 1.307 1.439 1.464 3.528.374 5.14l-1.392 2.06c-.412.608-.368 1.41.144 2.039.467.575 1.096.864 1.716.864.523 0 1.04-.216 1.416-.653.424-.492 1.173-.548 1.666-.124.493.424.548 1.173.124 1.666-.826.961-2.008 1.485-3.251 1.485zm-4.186-5.306c-.306.452-.262 1.052.102 1.455.366.402.962.482 1.428.19l3.328-2.086c.523-.328 1.218-.17 1.545.353.328.522.17 1.218-.353 1.545l-3.328 2.086c-1.666 1.044-3.792.756-5.1-.683-1.307-1.439-1.464-3.528-.374-5.14l1.392-2.06c.412-.608.368-1.41-.144-2.039-.467-.575-1.096-.864-1.716-.864-.523 0-1.04.216-1.416.653-.424.492-1.173.548-1.666.124-.493-.424-.548-1.173-.124-1.666.826-.961 2.008-1.485 3.251-1.485 1.322 0 2.653.61 3.643 1.83 1.086 1.336 1.196 3.04.325 4.327l-1.393 2.06z"/></svg>🔎</span> Shazam Discovery</div>
+                <div class="marquee-item" data-service="Boomplay Streams"><span class="marquee-icon">🔥</span> Boomplay Streams</div>
+                <div class="marquee-item" data-service="SoundCloud"><span class="marquee-icon">☁️</span> SoundCloud</div>
+                <div class="marquee-item" data-service="Amazon Music"><span class="marquee-icon">🛒</span> Amazon Music</div>
+                <div class="marquee-item" data-service="Deezer Streams"><span class="marquee-icon">💿</span> Deezer Streams</div>
+                <div class="marquee-item" data-service="Telegram Members"><span class="marquee-icon">💬</span> Telegram Members</div>
+                <div class="marquee-item" data-service="LinkedIn Growth"><span class="marquee-icon">💼</span> LinkedIn Growth</div>
                 <!-- Duplicate for seamless scroll -->
-                <div class="marquee-item"><span class="marquee-icon">🎵</span> TikTok Viral Growth</div>
-                <div class="marquee-item"><span class="marquee-icon">📸</span> Instagram Reels & Followers</div>
-                <div class="marquee-item"><span class="marquee-icon">▶️</span> YouTube Watch Hours & Views</div>
-                <div class="marquee-item"><span class="marquee-icon">🎧</span> Spotify Organic Streams</div>
-                <div class="marquee-item"><span class="marquee-icon">🎶</span> Audiomack Track Plays</div>
-                <div class="marquee-item"><span class="marquee-icon">🍏</span> Apple Music Global Streams</div>
-                <div class="marquee-item"><span class="marquee-icon">⚡</span> Shazam Charts & Saves</div>
+                <div class="marquee-item" data-service="TikTok Growth"><span class="marquee-icon">🎵</span> TikTok Growth</div>
+                <div class="marquee-item" data-service="IG Followers"><span class="marquee-icon">📸</span> IG Followers</div>
+                <div class="marquee-item" data-service="YouTube Views"><span class="marquee-icon">▶️</span> YouTube Views</div>
+                <div class="marquee-item" data-service="Spotify Streams"><span class="marquee-icon">🎧</span> Spotify Streams</div>
+                <div class="marquee-item" data-service="Audiomack Plays"><span class="marquee-icon">🎶</span> Audiomack Plays</div>
+                <div class="marquee-item" data-service="Apple Music"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="vertical-align: -2px; margin-right: 3px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.35c.64-.78 1.08-1.86.96-2.94-.93.04-2.05.62-2.71 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.71-1.3z"/></svg>🍏</span> Apple Music</div>
+                <div class="marquee-item" data-service="Shazam Discovery"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="#0088FF" style="vertical-align: -2px; margin-right: 3px;"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.593 17.653c-1.322 0-2.653-.61-3.643-1.83-1.086-1.336-1.196-3.04-.325-4.327l1.393-2.06c.306-.452.262-1.052-.102-1.455-.366-.402-.962-.482-1.428-.19l-3.328 2.086c-.523.328-1.218.17-1.545-.353-.328-.522-.17-1.218.353-1.545l3.328-2.086c1.666-1.044 3.792-.756 5.1 .683 1.307 1.439 1.464 3.528.374 5.14l-1.392 2.06c-.412.608-.368 1.41-.144-2.039-.467-.575-1.096-.864-1.716-.864-.523 0-1.04.216-1.416.653-.424.492-1.173.548-1.666.124-.493-.424-.548-1.173-.124-1.666.826-.961 2.008-1.485 3.251-1.485 1.322 0 2.653.61 3.643 1.83 1.086 1.336 1.196 3.04.325 4.327l-1.393 2.06z"/></svg>🔎</span> Shazam Discovery</div>
+                <div class="marquee-item" data-service="Boomplay Streams"><span class="marquee-icon">🔥</span> Boomplay Streams</div>
+                <div class="marquee-item" data-service="SoundCloud"><span class="marquee-icon">☁️</span> SoundCloud</div>
+                <div class="marquee-item" data-service="Amazon Music"><span class="marquee-icon">🛒</span> Amazon Music</div>
+                <div class="marquee-item" data-service="Deezer Streams"><span class="marquee-icon">💿</span> Deezer Streams</div>
+                <div class="marquee-item" data-service="Telegram Members"><span class="marquee-icon">💬</span> Telegram Members</div>
+                <div class="marquee-item" data-service="LinkedIn Growth"><span class="marquee-icon">💼</span> LinkedIn Growth</div>
             </div>
         </div>
 
@@ -967,7 +983,26 @@
         document.addEventListener('DOMContentLoaded', () => {
             refreshWalletBalance();
             initSpeechRecognition();
+            initMarqueeClickToPrompt();
         });
+
+        function initMarqueeClickToPrompt() {
+            const pills = document.querySelectorAll('.marquee-item');
+            const promptInput = document.getElementById('promptInput');
+            pills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const serviceName = pill.getAttribute('data-service') || pill.innerText.replace(/[🎵📸▶️🎧🎶🍏⚡🔥☁️🛒💿💬💼]/g, '').trim();
+                    if (promptInput) {
+                        promptInput.value = `I want [AMOUNT] ${serviceName} for my link: [URL]`;
+                        promptInput.focus();
+                        const startIdx = promptInput.value.indexOf('[AMOUNT]');
+                        if (startIdx !== -1) {
+                            promptInput.setSelectionRange(startIdx, startIdx + 8);
+                        }
+                    }
+                });
+            });
+        }
 
         function getActiveUser() {
             return document.getElementById('userSelect').value;
