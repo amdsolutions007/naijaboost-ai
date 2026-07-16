@@ -7,15 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
         :root {
-            --bg-dark: #121218;
-            --bg-card: rgba(26, 26, 36, 0.75);
+            --bg-dark: #07090E;
+            --bg-card: rgba(15, 18, 26, 0.70);
             --bg-glass: rgba(255, 255, 255, 0.04);
-            --border-glass: rgba(251, 145, 41, 0.25);
+            --border-glass: rgba(251, 145, 41, 0.35);
+            --border-neon: rgba(0, 255, 136, 0.35);
             --accent-orange: #FB9129;
             --accent-orange-hover: #ff9e3f;
-            --accent-glow: rgba(251, 145, 41, 0.35);
+            --accent-glow: rgba(251, 145, 41, 0.45);
             --text-primary: #FFFFFF;
             --text-secondary: #B0B0C0;
             --text-muted: #7A7A8E;
@@ -34,8 +36,9 @@
         body {
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(circle at 15% 20%, rgba(251, 145, 41, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+                radial-gradient(circle at 15% 20%, rgba(251, 145, 41, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(0, 255, 136, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
             color: var(--text-primary);
             font-family: var(--font-body);
             min-height: 100vh;
@@ -228,15 +231,97 @@
         }
 
         .prompt-container {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(20px);
+            background: rgba(13, 17, 26, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 28px;
+            padding: 2.25rem;
+            box-shadow: 
+                0 0 80px -12px rgba(0, 255, 136, 0.28),
+                0 0 40px -15px rgba(251, 145, 41, 0.35),
+                0 24px 60px rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            position: relative;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+        }
+
+        /* Marquee Styles */
+        .platform-marquee-wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            padding: 0.85rem 0;
+            margin-bottom: 0.75rem;
+            mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+        }
+
+        .platform-marquee {
+            display: flex;
+            width: max-content;
+            gap: 2.5rem;
+            animation: marquee-scroll 28s linear infinite;
+        }
+
+        .platform-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.45rem 1.2rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #E5E7EB;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .marquee-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent-orange);
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(251, 145, 41, 0.3);
+        }
+
+        .marquee-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Trust Badges Styles */
+        .trust-badges-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-top: -0.25rem;
+            margin-bottom: 1rem;
+            padding: 0.6rem 0.85rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #9CA3AF;
         }
 
         .language-selection-bar {
@@ -703,10 +788,31 @@
     <!-- Main Content Area -->
     <main>
         <section class="hero-banner">
-            <div class="hero-badge">Dual-Brain Conversational Engine</div>
+            <div class="hero-badge">ALGORITHMIC GROWTH TERMINAL</div>
             <h2>Speak or Type Your SMM Goals</h2>
             <p>Our localized AI layer analyzes multilingual prompts, optimizes your order parameters, and routes via high-speed Category A wholesalers.</p>
         </section>
+
+        <!-- Horizontal Platform Marquee -->
+        <div class="platform-marquee-wrapper">
+            <div class="platform-marquee">
+                <div class="marquee-item"><span class="marquee-icon">🎵</span> TikTok Viral Growth</div>
+                <div class="marquee-item"><span class="marquee-icon">📸</span> Instagram Reels & Followers</div>
+                <div class="marquee-item"><span class="marquee-icon">▶️</span> YouTube Watch Hours & Views</div>
+                <div class="marquee-item"><span class="marquee-icon">🎧</span> Spotify Organic Streams</div>
+                <div class="marquee-item"><span class="marquee-icon">🎶</span> Audiomack Track Plays</div>
+                <div class="marquee-item"><span class="marquee-icon">🍏</span> Apple Music Global Streams</div>
+                <div class="marquee-item"><span class="marquee-icon">⚡</span> Shazam Charts & Saves</div>
+                <!-- Duplicate for seamless scroll -->
+                <div class="marquee-item"><span class="marquee-icon">🎵</span> TikTok Viral Growth</div>
+                <div class="marquee-item"><span class="marquee-icon">📸</span> Instagram Reels & Followers</div>
+                <div class="marquee-item"><span class="marquee-icon">▶️</span> YouTube Watch Hours & Views</div>
+                <div class="marquee-item"><span class="marquee-icon">🎧</span> Spotify Organic Streams</div>
+                <div class="marquee-item"><span class="marquee-icon">🎶</span> Audiomack Track Plays</div>
+                <div class="marquee-item"><span class="marquee-icon">🍏</span> Apple Music Global Streams</div>
+                <div class="marquee-item"><span class="marquee-icon">⚡</span> Shazam Charts & Saves</div>
+            </div>
+        </div>
 
         <!-- Conversational Prompt Box -->
         <section class="prompt-container">
@@ -789,10 +895,29 @@
             <button class="modal-close" onclick="closeFundModal()">&times;</button>
             <div class="modal-title">⚡ Fund Your Wallet (Live Checkout)</div>
             <div class="modal-body">
-                <p>Initiate live production deposit via Paystack Gateway (`https://api.paystack.co/transaction/initialize`). You will be redirected to Paystack's official checkout to complete your deposit.</p>
+                <p>Top up instantly via Bank Transfer, Mastercard, Visa, or Verve.</p>
                 <div class="form-group">
                     <label for="fundAmount">Deposit Amount (NGN)</label>
                     <input type="number" class="form-control" id="fundAmount" value="50000" min="500" step="500">
+                </div>
+                <!-- Trust Badges Row -->
+                <div class="trust-badges-row">
+                    <div class="trust-badge" title="Visa Supported">
+                        <svg viewBox="0 0 48 16" width="36" height="14" fill="#1A1F71"><path d="M18.8 0l-3.3 15.6h-3.9l3.3-15.6h3.9zm17.6 15.2c-.7-.3-1.8-.6-3.2-.6-3.5 0-6 1.8-6 4.4 0 1.9 1.7 3 3 3.6 1.3.6 1.8 1 1.8 1.6 0 .9-1.1 1.3-2.1 1.3-1.4 0-2.2-.2-3.4-.7l-.5-.2-.5 3.3c.9.4 2.5.8 4.2.8 3.7 0 6.1-1.8 6.2-4.5 0-1.5-.9-2.7-2.9-3.6-1.2-.6-1.9-1-1.9-1.6 0-.5.6-1.1 2-1.1 1.1 0 1.9.2 2.5.5l.3.1.5-3.3zM39 0h-3c-.9 0-1.6.3-2 1.2l-5.7 14.4h4.1l.8-2.3h5l.5 2.3H43L39 0zm-2.6 10.3l2.1-5.7.7 5.7h-2.8zM9.4 0H5.5L0 15.6h4.1l.8-2.2h5l.5 2.2h3.9L9.4 0zm-3 10.6l2-5.5.7 5.5H6.4z" fill="#FFF"/></svg>
+                        <span>Visa</span>
+                    </div>
+                    <div class="trust-badge" title="Mastercard Supported">
+                        <svg viewBox="0 0 36 24" width="28" height="18"><circle cx="12" cy="12" r="10" fill="#EB001B"/><circle cx="24" cy="12" r="10" fill="#F79E1B" fill-opacity="0.8"/></svg>
+                        <span>Mastercard</span>
+                    </div>
+                    <div class="trust-badge" title="Verve Supported">
+                        <svg viewBox="0 0 40 20" width="32" height="16"><rect width="40" height="20" rx="4" fill="#00833E"/><text x="6" y="14" font-family="sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" font-style="italic">Verve</text></svg>
+                        <span>Verve</span>
+                    </div>
+                    <div class="trust-badge" title="Secured by Paystack">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 4h16v3H4zM4 10h16v3H4zM4 16h10v3H4z" fill="#00C3F7"/></svg>
+                        <span>Paystack</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="fundEmail">Billing Email</label>
@@ -1092,7 +1217,41 @@
 
                 const res = await response.json();
                 const authData = res.data || {};
-                if (authData.authorization_url) {
+
+                if (window.PaystackPop && (authData.access_code || authData.reference)) {
+                    closeFundModal();
+                    const handler = PaystackPop.setup({
+                        key: authData.public_key || 'pk_live_00f8983281ea73eb9d592a54388e6be48a5840bc',
+                        email: email || `${userId.toLowerCase().replace(/\s+/g, '_')}@naijaboost.ai`,
+                        amount: amount * 100,
+                        ref: authData.reference,
+                        access_code: authData.access_code,
+                        callback: async function(response) {
+                            try {
+                                await fetch('/api/v1/wallet/credit', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        user_id: userId,
+                                        amount_ngn: amount,
+                                        gateway_ref: response.reference,
+                                        gateway: 'paystack'
+                                    })
+                                });
+                                await refreshWalletBalance();
+                                alert(`Payment Successful! Wallet Credited ₦${amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })} (Ref: ${response.reference})`);
+                            } catch(err) {
+                                console.error("Error confirming credit inline:", err);
+                                await refreshWalletBalance();
+                                alert(`Payment processing completed (Ref: ${response.reference}). Your balance will refresh via webhook.`);
+                            }
+                        },
+                        onClose: function() {
+                            alert('Transaction window closed.');
+                        }
+                    });
+                    handler.openIframe();
+                } else if (authData.authorization_url) {
                     closeFundModal();
                     alert(`Initiating Live Paystack Checkout for ₦${amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })} (Ref: ${authData.reference}). Redirecting to secure gateway...`);
                     window.location.href = authData.authorization_url;

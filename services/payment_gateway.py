@@ -79,6 +79,7 @@ class PaystackGateway:
                     "reference": auth_data.get("reference", reference),
                     "authorization_url": auth_data.get("authorization_url"),
                     "access_code": auth_data.get("access_code"),
+                    "public_key": self.public_key,
                     "message": data.get("message", "Authorization URL created successfully"),
                 }
             else:
