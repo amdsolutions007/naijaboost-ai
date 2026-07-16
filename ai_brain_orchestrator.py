@@ -273,7 +273,7 @@ class DualBrainOrchestrator:
 
         # Validate provider against provider_routes whitelist
         provider_list = [p["provider_id"] for p in available_providers] if available_providers else [
-            "smmmain", "smmkings", "bulqfollowers", "secser", "justanotherpanel"
+            "smmmain", "smmkings", "bulqfollowers", "secser", "justanotherpanel", "jap", "instantfans", "instant-fans", "nicesmmpanel", "nicesmm", "yoyomedia", "yoyo", "peakerr", "peakerrsmm", "mtp", "jasasmm", "indosmm", "godsmm"
         ]
         recommended_provider = str(raw_plan.get("recommended_provider", "")).strip().lower()
         if not recommended_provider or recommended_provider not in provider_list:

@@ -787,28 +787,27 @@
     <div class="modal-overlay" id="fundModal">
         <div class="modal-card">
             <button class="modal-close" onclick="closeFundModal()">&times;</button>
-            <div class="modal-title">⚡ Fund Your Wallet</div>
+            <div class="modal-title">⚡ Fund Your Wallet (Live Checkout)</div>
             <div class="modal-body">
-                <p>Simulate local deposit via Paystack or Flutterwave gateway to top up NGN balance instantly.</p>
+                <p>Initiate live production deposit via Paystack Gateway (`https://api.paystack.co/transaction/initialize`). You will be redirected to Paystack's official checkout to complete your deposit.</p>
                 <div class="form-group">
                     <label for="fundAmount">Deposit Amount (NGN)</label>
                     <input type="number" class="form-control" id="fundAmount" value="50000" min="500" step="500">
                 </div>
                 <div class="form-group">
-                    <label for="fundGateway">Payment Gateway</label>
-                    <select class="form-control" id="fundGateway">
-                        <option value="paystack">Paystack Instant Webhook</option>
-                        <option value="flutterwave">Flutterwave Gateway</option>
-                    </select>
+                    <label for="fundEmail">Billing Email</label>
+                    <input type="email" class="form-control" id="fundEmail" placeholder="ceo@solutions007.com">
                 </div>
                 <div class="form-group">
-                    <label for="fundRef">Transaction Reference</label>
-                    <input type="text" class="form-control" id="fundRef" value="">
+                    <label for="fundGateway">Payment Gateway</label>
+                    <select class="form-control" id="fundGateway" disabled>
+                        <option value="paystack" selected>Paystack Live Checkout (Active)</option>
+                    </select>
                 </div>
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn-secondary" onclick="closeFundModal()">Cancel</button>
-                <button type="button" class="btn-submit" onclick="submitWalletCredit()">Deposit Now</button>
+                <button type="button" class="btn-submit" onclick="submitWalletCredit()">Proceed to Live Checkout →</button>
             </div>
         </div>
     </div>
@@ -1044,8 +1043,11 @@
         }
 
         function openFundModal(prefillAmount) {
-            const randRef = `PAY_LOCAL_${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
-            document.getElementById('fundRef').value = randRef;
+            const userId = getActiveUser();
+            const emailInput = document.getElementById('fundEmail');
+            if (emailInput && !emailInput.value) {
+                emailInput.value = `${userId.toLowerCase().replace(/\s+/g, '_')}@naijaboost.ai`;
+            }
             if (prefillAmount && !isNaN(prefillAmount)) {
                 document.getElementById('fundAmount').value = prefillAmount;
             }
@@ -1058,44 +1060,52 @@
 
         async function submitWalletCredit() {
             const amount = parseFloat(document.getElementById('fundAmount').value);
-            const gateway = document.getElementById('fundGateway').value;
-            const ref = document.getElementById('fundRef').value.trim();
+            const emailInput = document.getElementById('fundEmail');
+            const email = emailInput ? emailInput.value.trim() : '';
             const userId = getActiveUser();
 
             if (isNaN(amount) || amount <= 0) {
                 alert("Please enter a valid positive NGN amount.");
                 return;
             }
-            if (!ref) {
-                alert("Transaction reference is required.");
-                return;
-            }
+
+            const btnSubmit = document.querySelector('#fundModal .btn-submit');
+            if (btnSubmit) btnSubmit.disabled = true;
 
             try {
-                const response = await fetch('/api/v1/wallet/credit', {
+                const response = await fetch('/api/v1/payment/initialize', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         user_id: userId,
                         amount_ngn: amount,
-                        gateway_ref: ref,
-                        gateway: gateway
+                        email: email || `${userId.toLowerCase().replace(/\s+/g, '_')}@naijaboost.ai`,
+                        callback_url: window.location.origin + '/?payment=success'
                     })
                 });
 
                 if (!response.ok) {
-                    const err = await response.json().catch(() => ({ detail: "Credit failed" }));
-                    alert(`Error: ${err.detail || err.message}`);
+                    const err = await response.json().catch(() => ({ detail: "Payment initialization failed" }));
+                    alert(`Paystack Initialization Error: ${err.detail || err.message}`);
                     return;
                 }
 
                 const res = await response.json();
-                closeFundModal();
-                await refreshWalletBalance();
-                alert(`Wallet Credited Successfully! New Balance: ₦${res.data.balance_ngn.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`);
+                const authData = res.data || {};
+                if (authData.authorization_url) {
+                    closeFundModal();
+                    alert(`Initiating Live Paystack Checkout for ₦${amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })} (Ref: ${authData.reference}). Redirecting to secure gateway...`);
+                    window.location.href = authData.authorization_url;
+                } else if (authData.status === 'error') {
+                    alert(`Paystack Error: ${authData.message || 'Could not generate checkout URL.'}`);
+                } else {
+                    alert(`Payment initialized successfully! Reference: ${authData.reference}`);
+                }
             } catch (err) {
-                console.error("Wallet credit error:", err);
-                alert("Failed to connect to wallet gateway.");
+                console.error("Paystack checkout error:", err);
+                alert("Failed to connect to Paystack initialization server.");
+            } finally {
+                if (btnSubmit) btnSubmit.disabled = false;
             }
         }
     </script>

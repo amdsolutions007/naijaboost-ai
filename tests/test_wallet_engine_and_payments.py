@@ -1,6 +1,9 @@
 """Tests for local payment wallet engine and financial validation in FastAPI."""
 from __future__ import annotations
 
+import hashlib
+import hmac
+import json
 import sqlite3
 import uuid
 from pathlib import Path
@@ -9,7 +12,7 @@ from typing import Generator
 import pytest
 from fastapi.testclient import TestClient
 
-from main import app, get_db_path
+from main import app, get_db_path, paystack_gateway
 from services.smm_partners.base import InsufficientFundsError
 from wallet_engine import WalletEngine
 
@@ -118,3 +121,45 @@ def test_fastapi_campaign_prompt_sufficient_funds(test_client: TestClient, temp_
     data = response.json()
     assert data["status"] == "success"
     assert data["data"]["financial_verification"]["status"] == "SUFFICIENT_FUNDS"
+
+
+def test_simulation_deposit_rejected(test_client: TestClient, temp_wallet_user: str) -> None:
+    """Verify that sandbox simulation PAY_LOCAL_ references are rejected with HTTP 403."""
+    payload = {
+        "user_id": temp_wallet_user,
+        "amount_ngn": 50000.0,
+        "gateway_ref": "PAY_LOCAL_SIMULATION_123",
+        "gateway": "paystack",
+    }
+    response = test_client.post("/api/v1/wallet/credit", json=payload)
+    assert response.status_code == 403, response.text
+    assert "deactivated" in response.json()["detail"].lower()
+
+
+def test_paystack_webhook_verification(test_client: TestClient, temp_wallet_user: str) -> None:
+    """Verify Paystack webhook signature check and wallet balance update upon charge.success."""
+    secret = paystack_gateway.secret_key or "test_secret_key"
+    paystack_gateway.secret_key = secret
+
+    webhook_payload = {
+        "event": "charge.success",
+        "data": {
+            "reference": f"PYS_TEST_{uuid.uuid4().hex[:8]}",
+            "amount": 4500000,  # 45,000 NGN in kobo
+            "metadata": {
+                "user_id": temp_wallet_user,
+                "amount_ngn": 45000.0,
+            },
+        },
+    }
+    raw_body = json.dumps(webhook_payload).encode("utf-8")
+    signature = hmac.new(secret.encode("utf-8"), raw_body, hashlib.sha512).hexdigest()
+
+    headers = {"x-paystack-signature": signature, "Content-Type": "application/json"}
+    response = test_client.post("/api/v1/payment/webhook/paystack", content=raw_body, headers=headers)
+    assert response.status_code == 200, response.text
+
+    data = response.json()
+    assert data["status"] == "success"
+    assert data["data"]["balance_ngn"] == 45000.0
+

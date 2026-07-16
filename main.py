@@ -12,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
 from ai_brain_orchestrator import DualBrainOrchestrator, ParsedServicePlan
+from services.payment_gateway import PaystackGateway
 from wallet_engine import WalletEngine
 
 logger = logging.getLogger(__name__)
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="NaijaBoost AI Backend", version="2.0")
 orchestrator = DualBrainOrchestrator()
 wallet_engine = WalletEngine()
+paystack_gateway = PaystackGateway()
 templates = Jinja2Templates(directory="templates")
 
 
@@ -33,6 +35,13 @@ class WalletCreditRequest(BaseModel):
     amount_ngn: float = Field(..., gt=0, description="Amount in NGN to credit to user wallet")
     gateway_ref: str
     gateway: str = "paystack"
+
+
+class PaymentInitializeRequest(BaseModel):
+    user_id: str
+    amount_ngn: float = Field(..., gt=0, description="Amount in NGN to initialize for live Paystack deposit")
+    email: Optional[str] = None
+    callback_url: Optional[str] = None
 
 
 def get_db_path() -> Path:
@@ -144,6 +153,11 @@ def get_user_wallet_balance(user_id: str) -> Dict[str, Any]:
 @app.post("/api/v1/wallet/credit")
 def credit_user_wallet(request: WalletCreditRequest) -> Dict[str, Any]:
     """Verify deposit webhook / credit user wallet with NGN and calculate USD equivalent."""
+    if request.gateway_ref.startswith("PAY_LOCAL_"):
+        raise HTTPException(
+            status_code=403,
+            detail="Sandbox simulation mode ('PAY_LOCAL_' references) is deactivated. Please initiate live production checkout via Paystack initialize endpoint.",
+        )
     try:
         result = wallet_engine.credit_wallet(
             user_id=request.user_id,
@@ -157,6 +171,104 @@ def credit_user_wallet(request: WalletCreditRequest) -> Dict[str, Any]:
     except Exception as exc:
         logger.exception("Error crediting user wallet")
         raise HTTPException(status_code=500, detail="Internal server error during wallet credit.")
+
+
+@app.post("/api/v1/payment/initialize")
+@app.post("/api/v1/wallet/initialize")
+def initialize_payment(request: PaymentInitializeRequest) -> Dict[str, Any]:
+    """
+    Initiate an official API request to Paystack's transaction/initialize endpoint,
+    generate a real payment URL, and return checkout parameters for redirection.
+    """
+    try:
+        res = paystack_gateway.initialize_transaction(
+            user_id=request.user_id,
+            amount_ngn=request.amount_ngn,
+            email=request.email,
+            callback_url=request.callback_url,
+        )
+        if res.get("status") == "error":
+            raise HTTPException(status_code=502, detail=res.get("message", "Paystack initialization failed."))
+        return {"status": "success", "data": res}
+    except HTTPException:
+        raise
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except Exception as exc:
+        logger.exception("Error initializing Paystack transaction")
+        raise HTTPException(status_code=500, detail="Internal server error during Paystack initialization.")
+
+
+@app.post("/api/v1/payment/webhook/paystack")
+@app.post("/api/v1/wallet/webhook/paystack")
+async def paystack_webhook_handler(request: Request) -> Dict[str, Any]:
+    """
+    Verify HMAC SHA-512 webhook signature from Paystack and safely route back
+    to update the user's NGN balance inside mtp_campaigns.db upon successful real-world payment.
+    """
+    signature = request.headers.get("x-paystack-signature", "")
+    raw_body = await request.body()
+
+    if not paystack_gateway.verify_signature(raw_body, signature):
+        logger.warning("Rejected Paystack webhook due to invalid signature.")
+        raise HTTPException(status_code=401, detail="Invalid Paystack HMAC signature.")
+
+    try:
+        payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON payload in webhook.")
+
+    event = payload.get("event")
+    data = payload.get("data", {})
+
+    if event == "charge.success":
+        reference = data.get("reference")
+        amount_kobo = data.get("amount", 0)
+        amount_ngn = float(amount_kobo) / 100.0
+
+        metadata = data.get("metadata", {})
+        user_id = metadata.get("user_id")
+
+        if not user_id:
+            for field in metadata.get("custom_fields", []):
+                if field.get("variable_name") == "user_id":
+                    user_id = field.get("value")
+                    break
+
+        if not user_id:
+            logger.error(f"Paystack charge.success webhook missing user_id in metadata for ref '{reference}'")
+            return {"status": "ignored", "message": "No user_id found in metadata."}
+
+        logger.info(f"Processing live Paystack charge.success for ref '{reference}': crediting '{user_id}' with {amount_ngn} NGN")
+        try:
+            credit_res = wallet_engine.credit_wallet(
+                user_id=user_id,
+                amount_ngn=amount_ngn,
+                gateway_ref=reference,
+                gateway="paystack",
+            )
+            return {"status": "success", "message": "Wallet credited via Paystack webhook.", "data": credit_res}
+        except Exception as exc:
+            logger.exception(f"Error crediting wallet inside webhook for ref '{reference}'")
+            raise HTTPException(status_code=500, detail="Internal error updating database balance.")
+
+    return {"status": "ignored", "message": f"Unhandled Paystack event '{event}'"}
+
+
+
+@app.get("/api/v1/provider/balance/{provider_id}")
+def get_provider_balance(provider_id: str = "mtp") -> Dict[str, Any]:
+    """Retrieve current wholesale account balance from our primary or mapped SMM provider."""
+    try:
+        result = wallet_engine.check_provider_balance(provider_id)
+        if result.get("status") == "error":
+            raise HTTPException(status_code=502, detail=result.get("error", "Failed to fetch provider balance."))
+        return {"status": "success", "data": result}
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception(f"Error checking balance for provider '{provider_id}'")
+        raise HTTPException(status_code=500, detail="Internal server error checking provider balance.")
 
 
 @app.post("/api/v1/campaign/prompt")

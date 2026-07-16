@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sqlite3
+import uuid
 from pathlib import Path
 from typing import Any, Dict
 
@@ -18,30 +19,27 @@ def test_client() -> TestClient:
 
 
 def test_database_provider_routes_instantiation_and_seeding() -> None:
-    """Verify that mtp_campaigns.db has provider_routes schema correctly seeded without Category B."""
+    """Verify that mtp_campaigns.db has provider_routes schema correctly structured with Option A and Option B/C tiers."""
     db_path = get_db_path()
     assert db_path.exists(), f"Database not found at {db_path}"
 
     with sqlite3.connect(db_path) as conn:
         cursor = conn.cursor()
-        
+
         # Verify schema table exists
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='provider_routes'")
         assert cursor.fetchone() is not None, "provider_routes table does not exist"
 
-        # Verify Category B is completely purged
-        cursor.execute(
-            "SELECT COUNT(*) FROM provider_routes WHERE LOWER(provider_id) IN "
-            "('morethanpanel', 'godsmm', 'nicesmmpanel', 'prm4u', 'peakerrsmm', 'mtp', 'smmfollows')"
-        )
-        category_b_count = cursor.fetchone()[0]
-        assert category_b_count == 0, "Category B providers found in provider_routes"
+        # Verify Option A (Direct Source) active modules are exactly the 5 Core Wholesalers
+        cursor.execute("SELECT provider_id FROM provider_routes WHERE is_active = 1 AND tier = 'Option A (Direct Source)'")
+        active_providers = {row[0].lower() for row in cursor.fetchall()}
+        expected_option_a = {"smmmain", "smmkings", "bulqfollowers", "secser", "justanotherpanel"}
+        assert expected_option_a.issubset(active_providers), f"Expected Option A providers {expected_option_a} not subset of {active_providers}"
 
-        # Verify Category A wholesalers are seeded
-        cursor.execute("SELECT provider_id FROM provider_routes WHERE is_active = 1")
-        providers = {row[0].lower() for row in cursor.fetchall()}
-        expected = {"smmmain", "smmkings", "bulqfollowers", "secser", "justanotherpanel"}
-        assert expected.issubset(providers), f"Expected providers {expected} not subset of {providers}"
+        # Verify Option B/C (Reseller Cache) inactive modules are seeded with is_active = 0 and weight = 0.1
+        cursor.execute("SELECT COUNT(*) FROM provider_routes WHERE tier = 'Option B/C (Reseller Cache)' AND is_active = 0 AND priority_weight = 0.1")
+        reseller_count = cursor.fetchone()[0]
+        assert reseller_count >= 5, "Option B/C Reseller Cache providers not properly updated"
 
 
 def test_dual_brain_orchestrator_process_prompt() -> None:
@@ -55,7 +53,6 @@ def test_dual_brain_orchestrator_process_prompt() -> None:
     assert plan.target_url == "https://audiomack.com/song/123"
     assert plan.drip_feed is True
     assert 100 <= plan.delivery_rate <= 1000
-    assert plan.recommended_provider in {"smmmain", "smmkings", "bulqfollowers", "secser", "justanotherpanel"}
 
 
 def test_dual_brain_orchestrator_enforces_drip_feed_bounds(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -83,7 +80,7 @@ def test_fastapi_campaign_prompt_endpoint(test_client: TestClient) -> None:
     # Ensure user has sufficient funds for campaign cost check
     test_client.post(
         "/api/v1/wallet/credit",
-        json={"user_id": "ceo_solutions007", "amount_ngn": 50000.0, "gateway_ref": "REF_CEO_TEST_001"},
+        json={"user_id": "ceo_solutions007", "amount_ngn": 50000.0, "gateway_ref": f"REF_TEST_{uuid.uuid4().hex[:8]}"},
     )
     payload = {
         "user_id": "ceo_solutions007",

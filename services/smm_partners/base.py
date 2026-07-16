@@ -206,7 +206,7 @@ class BaseSMMClient(ABC):
         """
 
         attempt = 0
-        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        url = f"{self.base_url}/{endpoint.lstrip('/')}".rstrip("/") if endpoint else self.base_url
 
         if json_payload is not None and data_payload is not None:
             raise ValueError("Provide either json_payload or data_payload, not both.")
@@ -216,6 +216,10 @@ class BaseSMMClient(ABC):
                 self._ensure_circuit_allows_request()
 
             request_headers = self._apply_authentication(headers)
+            if data_payload is not None:
+                request_headers["Content-Type"] = "application/x-www-form-urlencoded"
+            elif json_payload is not None:
+                request_headers["Content-Type"] = "application/json"
 
             logger.debug(
                 "Dispatching partner request",

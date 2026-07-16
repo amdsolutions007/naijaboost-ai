@@ -1,4 +1,4 @@
-"""Concrete SMM client implementation for the YoYoMedia partner."""
+"""Concrete SMM client implementation for The Owlet (Owlet SMM) partner."""
 
 from __future__ import annotations
 
@@ -8,10 +8,10 @@ from typing import Any, Optional, cast
 from .base import BaseSMMClient
 
 
-class YoYoMediaClient(BaseSMMClient):
-    """Client responsible for interacting with the YoYoMedia SMM API."""
+class OwletClient(BaseSMMClient):
+    """Client responsible for interacting with The Owlet SMM API."""
 
-    DEFAULT_ENDPOINT: str = "api"
+    DEFAULT_ENDPOINT: str = "api/v2"
     DEFAULT_TIMEOUT: float = 30.0
 
     @property
@@ -24,7 +24,7 @@ class YoYoMediaClient(BaseSMMClient):
 
     @classmethod
     def build_auth_headers(cls, api_key: str) -> dict[str, str]:
-        # YoYoMedia authenticates purely via payload key parameter.
+        # Owlet authenticates via payload key parameter.
         return {}
 
     def create_order(self, *, service_id: str, quantity: int, **kwargs: Any) -> Mapping[str, Any]:

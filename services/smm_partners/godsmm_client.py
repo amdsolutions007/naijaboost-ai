@@ -14,6 +14,14 @@ class GodSMMClient(BaseSMMClient):
     DEFAULT_ENDPOINT: str = "api"
     DEFAULT_TIMEOUT: float = 30.0
 
+    @property
+    def endpoint(self) -> str:
+        """Resolve the target endpoint dynamically based on the configured base_url."""
+        normalized = self.base_url.rstrip("/")
+        if normalized.endswith("/api/v2") or normalized.endswith("/api"):
+            return ""
+        return self.DEFAULT_ENDPOINT
+
     @classmethod
     def build_auth_headers(cls, api_key: str) -> dict[str, str]:
         # GodSMM also authenticates via payload key parameter.
@@ -31,7 +39,7 @@ class GodSMMClient(BaseSMMClient):
 
         return self._request(
             "POST",
-            self.DEFAULT_ENDPOINT,
+            self.endpoint,
             data_payload=payload,
             headers=headers,
             timeout=timeout if timeout is not None else self.DEFAULT_TIMEOUT,
@@ -39,18 +47,18 @@ class GodSMMClient(BaseSMMClient):
 
     def get_status(self, order_id: str) -> Mapping[str, Any]:
         payload = self._build_payload("status", {"order": order_id})
-        return self._request("POST", self.DEFAULT_ENDPOINT, data_payload=payload)
+        return self._request("POST", self.endpoint, data_payload=payload)
 
     def check_status(self, order_id: str) -> Mapping[str, Any]:
         return self.get_status(order_id)
 
     def get_services(self) -> Mapping[str, Any]:
         payload = self._build_payload("services")
-        return self._request("POST", self.DEFAULT_ENDPOINT, data_payload=payload)
+        return self._request("POST", self.endpoint, data_payload=payload)
 
     def get_balance(self) -> Mapping[str, Any]:
         payload = self._build_payload("balance")
-        return self._request("POST", self.DEFAULT_ENDPOINT, data_payload=payload, circuit_check=False)
+        return self._request("POST", self.endpoint, data_payload=payload, circuit_check=False)
 
     def _build_payload(self, action: str, extra_fields: Optional[Mapping[str, Any]] = None) -> dict[str, str]:
         payload: dict[str, str] = {"key": self.api_key, "action": action}

@@ -1,4 +1,4 @@
-"""Concrete SMM client implementation for the YoYoMedia partner."""
+"""Concrete SMM client implementation for the SMMKings partner (sixth fulfillment provider)."""
 
 from __future__ import annotations
 
@@ -8,10 +8,9 @@ from typing import Any, Optional, cast
 from .base import BaseSMMClient
 
 
-class YoYoMediaClient(BaseSMMClient):
-    """Client responsible for interacting with the YoYoMedia SMM API."""
+class SMMKingsClient(BaseSMMClient):
+    """Client responsible for interacting with the SMMKings SMM API v2."""
 
-    DEFAULT_ENDPOINT: str = "api"
     DEFAULT_TIMEOUT: float = 30.0
 
     @property
@@ -20,11 +19,11 @@ class YoYoMediaClient(BaseSMMClient):
         normalized = self.base_url.rstrip("/")
         if normalized.endswith("/api/v2") or normalized.endswith("/api"):
             return ""
-        return self.DEFAULT_ENDPOINT
+        return "api/v2"
 
     @classmethod
     def build_auth_headers(cls, api_key: str) -> dict[str, str]:
-        # YoYoMedia authenticates purely via payload key parameter.
+        # SMMKings authenticates via payload key parameter.
         return {}
 
     def create_order(self, *, service_id: str, quantity: int, **kwargs: Any) -> Mapping[str, Any]:

@@ -19,6 +19,7 @@ from typing import Any, Dict, Optional
 import requests
 
 from services.smm_partners.base import InsufficientFundsError
+from services.provider_orchestrator import ProviderOrchestrator
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +56,7 @@ class WalletEngine:
         except (ValueError, TypeError):
             self.fallback_rate = fallback_rate
         self.timeout = timeout
+        self.provider_orchestrator = ProviderOrchestrator()
         self._ensure_tables()
 
     def _ensure_tables(self) -> None:
@@ -293,3 +295,24 @@ class WalletEngine:
             "transaction_id": txn_ref,
             "status": "success",
         }
+
+    def check_provider_balance(self, provider_id: str = "mtp") -> Dict[str, Any]:
+        """Look up current balance from the mapped SMM provider API endpoint."""
+        return self.provider_orchestrator.check_provider_balance(provider_id)
+
+    def forward_order_to_provider(
+        self,
+        service_id: str,
+        quantity: int,
+        target_url: str,
+        provider_id: str = "mtp",
+        **kwargs: Any,
+    ) -> Dict[str, Any]:
+        """Forward incoming client order automatically to the mapped fulfillment endpoint."""
+        return self.provider_orchestrator.forward_order_to_provider(
+            service_id=service_id,
+            quantity=quantity,
+            target_url=target_url,
+            provider_id=provider_id,
+            **kwargs,
+        )
