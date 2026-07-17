@@ -136,7 +136,7 @@ def read_root(request: Request) -> Any:
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"paystack_public_key": os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_live_82813a06033ca504895388aa775b885131f7ae2e")},
+        context={"paystack_public_key": os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_test_863dd385a87b8851101a2ef6553a57bdddd1198a")},
     )
 
 
@@ -145,7 +145,7 @@ def get_paystack_config() -> Dict[str, str]:
     """Return public configuration for Paystack inline checkout."""
     return {
         "status": "success",
-        "public_key": os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_live_82813a06033ca504895388aa775b885131f7ae2e"),
+        "public_key": os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_test_863dd385a87b8851101a2ef6553a57bdddd1198a"),
     }
 
 

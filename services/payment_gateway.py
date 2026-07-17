@@ -29,8 +29,8 @@ class PaystackGateway:
     VERIFY_URL = "https://api.paystack.co/transaction/verify/{reference}"
 
     def __init__(self, secret_key: Optional[str] = None, public_key: Optional[str] = None) -> None:
-        self.secret_key = secret_key or os.environ.get("PAYSTACK_SECRET_KEY", "")
-        self.public_key = public_key or os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_live_82813a06033ca504895388aa775b885131f7ae2e")
+        self.secret_key = secret_key or os.environ.get("PAYSTACK_SECRET_KEY", "sk_test_2bfe17d1cbe69b72a03370f7ef6eaa54cd63729a")
+        self.public_key = public_key or os.environ.get("PAYSTACK_PUBLIC_KEY", "pk_test_863dd385a87b8851101a2ef6553a57bdddd1198a")
 
     def initialize_transaction(
         self,
