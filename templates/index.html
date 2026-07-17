@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <meta name="paystack-public-key" id="paystackPubKeyMeta" content="{{ paystack_public_key }}">
+    <meta name="paystack-public-key" id="paystackPubKeyMeta" content="pk_live_82813a06033ca504895388aa775b885131f7ae2e">
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
         :root {
@@ -1255,13 +1255,12 @@
                 const res = await response.json();
                 const authData = res.data || {};
 
-                const metaPubKey = document.querySelector('meta[name="paystack-public-key"]')?.getAttribute('content');
-                const pubKey = (metaPubKey && metaPubKey.trim() && !metaPubKey.includes('{' + '{')) ? metaPubKey.trim() : (authData.public_key || 'pk_live_82813a06033ca504895388aa775b885131f7ae2e');
+                const PAYSTACK_PUBLIC_KEY = "pk_live_82813a06033ca504895388aa775b885131f7ae2e";
 
                 if (window.PaystackPop && (authData.access_code || authData.reference)) {
                     closeFundModal();
                     const setupOptions = {
-                        key: pubKey,
+                        key: PAYSTACK_PUBLIC_KEY,
                         email: derivedEmail,
                         amount: amount * 100,
                         ref: authData.reference,
