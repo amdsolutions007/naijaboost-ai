@@ -122,16 +122,30 @@
             color: var(--text-secondary);
         }
 
-        .user-selector select {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            padding: 0.35rem 0.75rem;
-            border-radius: 8px;
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            outline: none;
-            cursor: pointer;
+        .session-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #E5E7EB;
+            letter-spacing: 0.01em;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .session-pill::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
+            flex-shrink: 0;
         }
 
         .wallet-balances {
@@ -767,12 +781,8 @@
 
         <div class="wallet-status-bar">
             <div class="user-selector">
-                <span>User:</span>
-                <select id="userSelect" onchange="refreshWalletBalance()">
-                    <option value="ceo_solutions007">CEO Solutions 007</option>
-                    <option value="naija_hustler_01">Naija Hustler 01</option>
-                    <option value="brand_agency_ng">Brand Agency NG</option>
-                </select>
+                <span>Session:</span>
+                <div class="session-pill" id="sessionPill">CEO Solutions 007</div>
             </div>
             <div class="wallet-balances">
                 <div class="balance-item">
@@ -921,7 +931,7 @@
                 <div class="trust-badges-row" style="cursor: default; pointer-events: none; justify-content: flex-start; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.25rem;">
                     <span style="font-size: 0.75rem; color: #6B7280; font-weight: 600;">Accepted:</span>
                     <div class="trust-badge">
-                        <svg viewBox="0 0 48 16" width="30" height="12" fill="#1A1F71"><path d="M18.8 0l-3.3 15.6h-3.9l3.3-15.6h3.9zm17.6 15.2c-.7-.3-1.8-.6-3.2-.6-3.5 0-6 1.8-6 4.4 0 1.9 1.7 3 3 3.6 1.3.6 1.8 1 1.8 1.6 0 .9-1.1 1.3-2.1 1.3-1.4 0-2.2-.2-3.4-.7l-.5-.2-.5 3.3c.9.4 2.5.8 4.2.8 3.7 0 6.1-1.8 6.2-4.5 0-1.5-.9-2.7-2.9-3.6-1.2-.6-1.9-1-1.9-1.6 0-.5.6-1.1 2-1.1 1.1 0 1.9.2 2.5.5l.3.1.5-3.3zM39 0h-3c-.9 0-1.6.3-2 1.2l-5.7 14.4h4.1l.8-2.3h5l.5 2.3H43L39 0zm-2.6 10.3l2.1-5.7.7 5.7h-2.8zM9.4 0H5.5L0 15.6h4.1l.8-2.2h5l.5 2.2h3.9L9.4 0zm-3 10.6l2-5.5.7 5.5H6.4z" fill="#FFF"/></svg>
+                        <svg viewBox="0 0 50 16" width="38" height="14"><rect width="50" height="16" rx="3" fill="#1A1F71"/><text x="4" y="12" font-family="Arial,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" letter-spacing="1">VISA</text></svg>
                         <span>Visa</span>
                     </div>
                     <div class="trust-badge">
@@ -1000,8 +1010,11 @@
             });
         }
 
+        // Active session is fixed to the primary production account
+        const ACTIVE_USER_ID = 'ceo_solutions007';
+
         function getActiveUser() {
-            return document.getElementById('userSelect').value;
+            return ACTIVE_USER_ID;
         }
 
         async function refreshWalletBalance() {
