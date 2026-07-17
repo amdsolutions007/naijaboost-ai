@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <meta name="paystack-public-key" id="paystackPubKeyMeta" content="pk_live_82813a06033ca504895388aa775b885131f7ae2e">
+    <meta name="paystack-public-key" id="paystackPubKeyMeta" content="{{ paystack_public_key }}">
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
         :root {
@@ -803,10 +803,10 @@
             <div class="platform-marquee">
                 <div class="marquee-item" data-service="TikTok Growth"><span class="marquee-icon">🎵</span> TikTok Growth</div>
                 <div class="marquee-item" data-service="IG Followers"><span class="marquee-icon">📸</span> IG Followers</div>
-                <div class="marquee-item" data-service="YouTube Views"><span class="marquee-icon">▶️</span> YouTube Views</div>
-                <div class="marquee-item" data-service="Spotify Streams"><span class="marquee-icon">🎧</span> Spotify Streams</div>
+                <div class="marquee-item" data-service="YouTube Views"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align: -2px;"><rect width="24" height="24" rx="5" fill="#FF0000"/><polygon points="10,7 10,17 17,12" fill="#FFFFFF"/></svg></span> YouTube Views</div>
+                <div class="marquee-item" data-service="Spotify Streams"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="#1DB954" style="vertical-align: -2px;"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span> Spotify Streams</div>
                 <div class="marquee-item" data-service="Audiomack Plays"><span class="marquee-icon">🎶</span> Audiomack Plays</div>
-                <div class="marquee-item" data-service="Apple Music"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="vertical-align: -2px; margin-right: 3px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.35c.64-.78 1.08-1.86.96-2.94-.93.04-2.05.62-2.71 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.71-1.3z"/></svg>🍏</span> Apple Music</div>
+                <div class="marquee-item" data-service="Apple Music"><span class="marquee-icon" style="gap: 0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align: -2px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.35c.64-.78 1.08-1.86.96-2.94-.93.04-2.05.62-2.71 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.71-1.3z"/></svg></span> Apple Music</div>
                 <div class="marquee-item" data-service="Shazam Discovery"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="#0088FF" style="vertical-align: -2px; margin-right: 3px;"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.593 17.653c-1.322 0-2.653-.61-3.643-1.83-1.086-1.336-1.196-3.04-.325-4.327l1.393-2.06c.306-.452.262-1.052-.102-1.455-.366-.402-.962-.482-1.428-.19l-3.328 2.086c-.523.328-1.218.17-1.545-.353-.328-.522-.17-1.218.353-1.545l3.328-2.086c1.666-1.044 3.792-.756 5.1 .683 1.307 1.439 1.464 3.528.374 5.14l-1.392 2.06c-.412.608-.368 1.41.144 2.039.467.575 1.096.864 1.716.864.523 0 1.04-.216 1.416-.653.424-.492 1.173-.548 1.666-.124.493.424.548 1.173.124 1.666-.826.961-2.008 1.485-3.251 1.485zm-4.186-5.306c-.306.452-.262 1.052.102 1.455.366.402.962.482 1.428.19l3.328-2.086c.523-.328 1.218-.17 1.545.353.328.522.17 1.218-.353 1.545l-3.328 2.086c-1.666 1.044-3.792.756-5.1-.683-1.307-1.439-1.464-3.528-.374-5.14l1.392-2.06c.412-.608.368-1.41-.144-2.039-.467-.575-1.096-.864-1.716-.864-.523 0-1.04.216-1.416.653-.424.492-1.173.548-1.666.124-.493-.424-.548-1.173-.124-1.666.826-.961 2.008-1.485 3.251-1.485 1.322 0 2.653.61 3.643 1.83 1.086 1.336 1.196 3.04.325 4.327l-1.393 2.06z"/></svg>🔎</span> Shazam Discovery</div>
                 <div class="marquee-item" data-service="Boomplay Streams"><span class="marquee-icon">🔥</span> Boomplay Streams</div>
                 <div class="marquee-item" data-service="SoundCloud"><span class="marquee-icon">☁️</span> SoundCloud</div>
@@ -817,10 +817,10 @@
                 <!-- Duplicate for seamless scroll -->
                 <div class="marquee-item" data-service="TikTok Growth"><span class="marquee-icon">🎵</span> TikTok Growth</div>
                 <div class="marquee-item" data-service="IG Followers"><span class="marquee-icon">📸</span> IG Followers</div>
-                <div class="marquee-item" data-service="YouTube Views"><span class="marquee-icon">▶️</span> YouTube Views</div>
-                <div class="marquee-item" data-service="Spotify Streams"><span class="marquee-icon">🎧</span> Spotify Streams</div>
+                <div class="marquee-item" data-service="YouTube Views"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align: -2px;"><rect width="24" height="24" rx="5" fill="#FF0000"/><polygon points="10,7 10,17 17,12" fill="#FFFFFF"/></svg></span> YouTube Views</div>
+                <div class="marquee-item" data-service="Spotify Streams"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="#1DB954" style="vertical-align: -2px;"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span> Spotify Streams</div>
                 <div class="marquee-item" data-service="Audiomack Plays"><span class="marquee-icon">🎶</span> Audiomack Plays</div>
-                <div class="marquee-item" data-service="Apple Music"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="vertical-align: -2px; margin-right: 3px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.35c.64-.78 1.08-1.86.96-2.94-.93.04-2.05.62-2.71 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.71-1.3z"/></svg>🍏</span> Apple Music</div>
+                <div class="marquee-item" data-service="Apple Music"><span class="marquee-icon" style="gap: 0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align: -2px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.35c.64-.78 1.08-1.86.96-2.94-.93.04-2.05.62-2.71 1.4-.58.68-1.1 1.78-.96 2.84 1.04.08 2.08-.52 2.71-1.3z"/></svg></span> Apple Music</div>
                 <div class="marquee-item" data-service="Shazam Discovery"><span class="marquee-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="#0088FF" style="vertical-align: -2px; margin-right: 3px;"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.593 17.653c-1.322 0-2.653-.61-3.643-1.83-1.086-1.336-1.196-3.04-.325-4.327l1.393-2.06c.306-.452.262-1.052-.102-1.455-.366-.402-.962-.482-1.428-.19l-3.328 2.086c-.523.328-1.218.17-1.545-.353-.328-.522-.17-1.218.353-1.545l3.328-2.086c1.666-1.044 3.792-.756 5.1 .683 1.307 1.439 1.464 3.528.374 5.14l-1.392 2.06c-.412.608-.368 1.41-.144-2.039-.467-.575-1.096-.864-1.716-.864-.523 0-1.04.216-1.416.653-.424.492-1.173.548-1.666.124-.493-.424-.548-1.173-.124-1.666.826-.961 2.008-1.485 3.251-1.485 1.322 0 2.653.61 3.643 1.83 1.086 1.336 1.196 3.04.325 4.327l-1.393 2.06z"/></svg>🔎</span> Shazam Discovery</div>
                 <div class="marquee-item" data-service="Boomplay Streams"><span class="marquee-icon">🔥</span> Boomplay Streams</div>
                 <div class="marquee-item" data-service="SoundCloud"><span class="marquee-icon">☁️</span> SoundCloud</div>
@@ -958,7 +958,7 @@
                 <p>Your current wallet balance is insufficient to execute this campaign. Please top up your account to proceed.</p>
                 
                 <div class="alert-deficit" id="paymentDeficitAlert">
-                    Required: ₦15,000.00 | Current: ₦0.00 | Deficit: ₦15,000.00
+                    Required: ₦0.00 | Current: ₦0.00 | Deficit: ₦0.00
                 </div>
 
                 <div class="plan-stat" style="margin-bottom: 1rem;">
@@ -1253,7 +1253,7 @@
                 const authData = res.data || {};
 
                 const metaPubKey = document.querySelector('meta[name="paystack-public-key"]')?.getAttribute('content');
-                const pubKey = authData.public_key || metaPubKey || 'pk_live_82813a06033ca504895388aa775b885131f7ae2e';
+                const pubKey = authData.public_key || metaPubKey;
 
                 if (window.PaystackPop && (authData.access_code || authData.reference)) {
                     closeFundModal();
