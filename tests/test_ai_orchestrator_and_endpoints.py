@@ -80,10 +80,10 @@ def test_fastapi_campaign_prompt_endpoint(test_client: TestClient) -> None:
     # Ensure user has sufficient funds for campaign cost check
     test_client.post(
         "/api/v1/wallet/credit",
-        json={"user_id": "ceo_solutions007", "amount_ngn": 50000.0, "gateway_ref": f"REF_TEST_{uuid.uuid4().hex[:8]}"},
+        json={"user_id": "test_user_prompt_001", "amount_ngn": 50000.0, "gateway_ref": f"REF_TEST_{uuid.uuid4().hex[:8]}"},
     )
     payload = {
-        "user_id": "ceo_solutions007",
+        "user_id": "test_user_prompt_001",
         "prompt": "Boost my YouTube channel with 1000 watch hours https://youtube.com/channel/naijaboost",
         "language": "Yoruba",
     }
@@ -93,7 +93,7 @@ def test_fastapi_campaign_prompt_endpoint(test_client: TestClient) -> None:
     data = response.json()
     assert data["status"] == "success"
     assert data["message"] == "Auto-configured campaign plan generated and verified successfully."
-    assert data["data"]["user_id"] == "ceo_solutions007"
+    assert data["data"]["user_id"] == "test_user_prompt_001"
     assert data["data"]["language"] == "Yoruba"
     
     plan = data["data"]["campaign_plan"]

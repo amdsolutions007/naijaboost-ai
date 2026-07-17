@@ -7,10 +7,13 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
+
+load_dotenv()
 
 from ai_brain_orchestrator import DualBrainOrchestrator, ParsedServicePlan
 from services.payment_gateway import PaystackGateway

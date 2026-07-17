@@ -781,7 +781,7 @@
 
         <div class="wallet-status-bar">
             <div class="user-selector">
-                <span>Session:</span>
+                <span>User:</span>
                 <div class="session-pill" id="sessionPill">CEO Solutions 007</div>
             </div>
             <div class="wallet-balances">
@@ -932,7 +932,6 @@
                     <span style="font-size: 0.75rem; color: #6B7280; font-weight: 600;">Accepted:</span>
                     <div class="trust-badge">
                         <svg viewBox="0 0 50 16" width="38" height="14"><rect width="50" height="16" rx="3" fill="#1A1F71"/><text x="4" y="12" font-family="Arial,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" letter-spacing="1">VISA</text></svg>
-                        <span>Visa</span>
                     </div>
                     <div class="trust-badge">
                         <svg viewBox="0 0 36 24" width="24" height="16"><circle cx="12" cy="12" r="10" fill="#EB001B"/><circle cx="24" cy="12" r="10" fill="#F79E1B" fill-opacity="0.8"/></svg>
@@ -1257,7 +1256,7 @@
                 const authData = res.data || {};
 
                 const metaPubKey = document.querySelector('meta[name="paystack-public-key"]')?.getAttribute('content');
-                const pubKey = authData.public_key || metaPubKey;
+                const pubKey = (metaPubKey && metaPubKey.trim() && !metaPubKey.includes('{' + '{')) ? metaPubKey.trim() : (authData.public_key || 'pk_live_82813a06033ca504895388aa775b885131f7ae2e');
 
                 if (window.PaystackPop && (authData.access_code || authData.reference)) {
                     closeFundModal();
