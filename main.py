@@ -205,7 +205,9 @@ def initialize_payment(request: PaymentInitializeRequest) -> Dict[str, Any]:
             callback_url=request.callback_url,
         )
         if res.get("status") == "error":
-            raise HTTPException(status_code=502, detail=res.get("message", "Paystack initialization failed."))
+            raw_err = res.get("raw_response", {})
+            detail_msg = f"{res.get('message', 'Paystack initialization failed.')} | RAW: {raw_err}"
+            raise HTTPException(status_code=502, detail=detail_msg)
         return {"status": "success", "data": res}
     except HTTPException:
         raise

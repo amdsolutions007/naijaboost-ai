@@ -1305,7 +1305,7 @@
                 }
             } catch (err) {
                 console.error("Paystack checkout error:", err);
-                alert("Failed to connect to Paystack initialization server.");
+                alert(`Failed to connect to Paystack initialization server. Exact JS Error: ${err.message || err}`);
             } finally {
                 if (btnSubmit) btnSubmit.disabled = false;
             }
