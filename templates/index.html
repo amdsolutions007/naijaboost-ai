@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <meta name="paystack-public-key" id="paystackPubKeyMeta" content="pk_test_863dd385a87b8851101a2ef6553a57bdddd1198a">
+    <meta name="paystack-public-key" id="paystackPubKeyMeta" content="pk_live_82813a06033ca504895388aa775b885131f7ae2e">
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
         :root {
@@ -1255,7 +1255,7 @@
                 const res = await response.json();
                 const authData = res.data || {};
 
-                const PAYSTACK_PUBLIC_KEY = "pk_test_863dd385a87b8851101a2ef6553a57bdddd1198a";
+                const PAYSTACK_PUBLIC_KEY = "pk_live_82813a06033ca504895388aa775b885131f7ae2e";
 
                 if (window.PaystackPop && (authData.access_code || authData.reference)) {
                     closeFundModal();
