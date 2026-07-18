@@ -1265,25 +1265,27 @@
                         amount: amount * 100,
                         ref: authData.reference,
                         channels: ['card', 'bank_transfer', 'ussd', 'qr'],
-                        callback: async function(response) {
-                            try {
-                                await fetch('/api/v1/wallet/credit', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                        user_id: userId,
-                                        amount_ngn: amount,
-                                        gateway_ref: response.reference,
-                                        gateway: 'paystack'
-                                    })
-                                });
-                                await refreshWalletBalance();
-                                alert(`✅ Payment Successful! Wallet credited ₦${amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })} (Ref: ${response.reference})`);
-                            } catch(err) {
-                                console.error("Error confirming credit inline:", err);
-                                await refreshWalletBalance();
-                                alert(`Payment completed (Ref: ${response.reference}). Your balance will refresh via webhook.`);
-                            }
+                        callback: function(response) {
+                            (async () => {
+                                try {
+                                    await fetch('/api/v1/wallet/credit', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            user_id: userId,
+                                            amount_ngn: amount,
+                                            gateway_ref: response.reference,
+                                            gateway: 'paystack'
+                                        })
+                                    });
+                                    await refreshWalletBalance();
+                                    alert(`✅ Payment Successful! Wallet credited ₦${amount.toLocaleString('en-NG', { minimumFractionDigits: 2 })} (Ref: ${response.reference})`);
+                                } catch(err) {
+                                    console.error("Error confirming credit inline:", err);
+                                    await refreshWalletBalance();
+                                    alert(`Payment completed (Ref: ${response.reference}). Your balance will refresh via webhook.`);
+                                }
+                            })();
                         },
                         onClose: function() {
                             console.info('Paystack checkout window closed by user.');
