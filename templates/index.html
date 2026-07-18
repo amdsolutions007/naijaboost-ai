@@ -638,6 +638,54 @@
             to { opacity: 1; transform: scale(1); }
         }
 
+        /* Drawer UI */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .drawer-card {
+            background: rgba(18, 18, 25, 0.85);
+            backdrop-filter: blur(24px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: -15px 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .drawer-card .form-control {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .drawer-card .form-control:focus {
+            border-color: #22D3EE;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            outline: none;
+        }
+
         .modal-close {
             position: absolute;
             top: 1.25rem;
@@ -917,23 +965,31 @@
     </main>
 
     <!-- Fund Wallet Modal -->
-    <div class="modal-overlay" id="fundModal">
-        <div class="modal-card">
-            <button class="modal-close" onclick="closeFundModal()">&times;</button>
-            <div class="modal-title">⚡ Fund Your Wallet</div>
-            <div class="modal-body">
-                <p>Top up instantly via Card or Bank Transfer.</p>
-                <div class="form-group" style="margin-bottom: 1.5rem;">
-                    <label for="fundAmount">Deposit Amount (NGN)</label>
-                    <input type="number" class="form-control" id="fundAmount" placeholder="e.g. 5000" min="100" step="100">
+    <div class="drawer-overlay" id="fundModal">
+        <div class="drawer-card">
+            <button class="modal-close" onclick="closeFundModal()" style="top: 1.5rem; right: 1.5rem;">&times;</button>
+            <div class="modal-title" style="font-size: 1.75rem; margin-bottom: 0.5rem;">⚡ Fund Your Wallet</div>
+            <div class="modal-body" style="flex: 1;">
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem;">Top up instantly via Card or Bank Transfer.</p>
+                <div class="form-group" style="margin-bottom: 2.5rem;">
+                    <label for="fundAmount" style="color: #E5E7EB; font-weight: 500; font-size: 0.9rem;">Deposit Amount (NGN)</label>
+                    <input type="number" class="form-control" id="fundAmount" placeholder="e.g. 5000" min="100" step="100" style="padding: 1rem; font-size: 1.1rem;">
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 1rem; opacity: 0.6; margin-top: 1rem;">
+                    <span style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Accepted</span>
+                    <svg viewBox="0 0 50 16" width="38" height="14"><text x="4" y="12" font-family="Arial,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" letter-spacing="1">VISA</text></svg>
+                    <svg viewBox="0 0 36 24" width="24" height="16"><circle cx="12" cy="12" r="10" fill="#FFFFFF" fill-opacity="0.8"/><circle cx="24" cy="12" r="10" fill="#FFFFFF" fill-opacity="0.5"/></svg>
+                    <svg viewBox="0 0 40 20" width="28" height="14"><text x="6" y="14" font-family="sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" font-style="italic">Verve</text></svg>
                 </div>
             </div>
-            <div class="modal-actions" style="flex-direction: column; gap: 0.5rem; align-items: stretch;">
-                <button type="button" class="btn-submit" onclick="submitWalletCredit()" style="width: 100%; transition: all 0.3s ease; padding: 0.875rem; font-weight: 600; font-size: 1.05rem;">Proceed to Secure Checkout →</button>
-                <div style="text-align: center; margin-top: 0.4rem; font-size: 0.75rem; color: #9CA3AF; font-weight: 500;">
-                    🔒 Your transaction is secured with 256-bit encryption
+            <div class="modal-actions" style="flex-direction: column; gap: 0.5rem; align-items: stretch; margin-top: auto;">
+                <button type="button" class="btn-submit" onclick="submitWalletCredit()" style="width: 100%; transition: all 0.3s ease; padding: 0.9rem; font-weight: 600; font-size: 1.05rem; background: linear-gradient(135deg, #10B981, #059669); border-radius: 12px; border: none; color: white;">Proceed to Secure Checkout →</button>
+                <div style="text-align: center; margin-top: 0.5rem; font-size: 0.75rem; color: #9CA3AF; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                    Secured by 256-bit encryption
                 </div>
-                <button type="button" class="btn-secondary" onclick="closeFundModal()" style="width: 100%; margin-top: 0.5rem; background: transparent; border: none; color: #9CA3AF; transition: color 0.2s;">Cancel</button>
+                <button type="button" class="btn-secondary" onclick="closeFundModal()" style="width: 100%; margin-top: 0.8rem; background: transparent; border: none; color: #9CA3AF; transition: color 0.2s; padding: 0.5rem;">Cancel</button>
             </div>
         </div>
     </div>
