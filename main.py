@@ -220,6 +220,7 @@ def initialize_payment(request: PaymentInitializeRequest) -> Dict[str, Any]:
 
 @app.post("/api/v1/payment/webhook/paystack")
 @app.post("/api/v1/wallet/webhook/paystack")
+@app.post("/api/v1/payments/webhook")
 async def paystack_webhook_handler(request: Request) -> Dict[str, Any]:
     """
     Verify HMAC SHA-512 webhook signature from Paystack and safely route back
